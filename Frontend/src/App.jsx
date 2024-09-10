@@ -1,5 +1,22 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Signup } from "../pages/Signup";
+import { Signin } from "../pages/Signin";
+import { Dashboard } from "../pages/Dashboard";
+import { Transaction } from "../pages/Transaction";
+
 function App() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/signin" element={<Signin />}></Route>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/transaction" element={<Transaction />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
