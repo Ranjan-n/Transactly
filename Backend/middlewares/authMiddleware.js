@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../config");
+const { JWT_SECRET } = require("../config");
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(403).json({});
+    return res.status(403).json({
+      message: "Invalid Authorization",
+    });
   }
 
   const token = authHeader.split(" ")[1];
@@ -16,10 +18,14 @@ const authMiddleware = (req, res, next) => {
       req.userId = decoded.userId;
       next();
     } else {
-      return res.status(403).json({});
+      return res.status(403).json({
+        message: "failed to decode",
+      });
     }
   } catch (err) {
-    return res.status(403).json({});
+    return res.status(403).json({
+      error: err,
+    });
   }
 };
 

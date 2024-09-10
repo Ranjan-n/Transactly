@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const z = require("zod");
-const { User } = require("../database");
+const { User, Account } = require("../database");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, saltRounds } = require("../config");
 const bcrypt = require("bcrypt");
@@ -54,10 +54,16 @@ router.post("/signup", async (req, res) => {
       lastname,
     });
 
-    const userid = userDB._id;
+    const userId = userDB._id;
+
+    await Account.create({
+      userId,
+      balance: 1 + Math.floor(Math.random() * 100000),
+    });
+
     const token = jwt.sign(
       {
-        userid,
+        userId,
       },
       JWT_SECRET
     );
@@ -101,10 +107,10 @@ router.post("/signin", async (req, res) => {
       });
     }
 
-    const userid = user._id;
+    const userId = user._id;
     const token = jwt.sign(
       {
-        userid,
+        userId,
       },
       JWT_SECRET
     );
