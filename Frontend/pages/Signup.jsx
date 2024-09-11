@@ -9,7 +9,7 @@ export function Signup() {
   return (
     <div>
       <div>
-        <Heading label={"Signup"}></Heading>
+        <Heading label={"Sign Up"}></Heading>
         <SubHeading
           label={"Enter your information to Create Account"}
         ></SubHeading>
