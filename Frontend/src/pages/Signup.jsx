@@ -11,7 +11,7 @@ export function Signup() {
   return (
     <div className="bg-slate-50 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
-        <div className="rounded-lg bg-white w-90 text-center border border-solid border-blue-300 shadow-xl p-2 h-max px-4">
+        <div className="rounded-lg bg-white w-96 text-center border border-solid border-blue-300 shadow-xl p-2 h-max px-4">
           <Heading label={"SignUp"}></Heading>
           <SubHeading
             label={"Enter your information to Create Account"}

@@ -8,10 +8,11 @@ export function InputBox({ id, type, placeholder, label }) {
         {label}
       </label>
       <input
-        className="w-full px-2 py-1 border rounded border-blue-200 focus:border-blue-500"
+        className="w-full px-2 py-1 border rounded border-blue-200 focus:border-blue-500 focus:outline-none text-blue-700"
         id={id}
         type={type}
         placeholder={placeholder}
+        required
       />
     </div>
   );
