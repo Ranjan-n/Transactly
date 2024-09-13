@@ -1,4 +1,4 @@
-export function InputBox({ id, type, placeholder, label }) {
+export function InputBox({ id, type, placeholder, label, onChange }) {
   return (
     <div className="pb-1">
       <label
@@ -8,6 +8,7 @@ export function InputBox({ id, type, placeholder, label }) {
         {label}
       </label>
       <input
+        onChange={onChange}
         className="w-full px-2 py-1 border rounded border-blue-200 focus:border-blue-500 focus:outline-none text-blue-700"
         id={id}
         type={type}
