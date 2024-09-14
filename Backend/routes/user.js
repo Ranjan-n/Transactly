@@ -25,6 +25,12 @@ const updateSchema = z.object({
   lastname: z.string().optional(),
 });
 
+router.get("/", authMiddleware, (req, res) => {
+  res.status(200).json({
+    message: "User Authorized",
+  });
+});
+
 router.post("/signup", async (req, res) => {
   const result = signupSchema.safeParse(req.body);
 
@@ -50,8 +56,8 @@ router.post("/signup", async (req, res) => {
     const userDB = await User.create({
       username,
       password: hashedPassword,
-      firstname,
-      lastname,
+      firstname: firstname.toLowerCase(),
+      lastname: lastname.toLowerCase(),
     });
 
     const userId = userDB._id;
@@ -126,7 +132,7 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.put("/", authMiddleware, async (req, res) => {
+router.put("/update", authMiddleware, async (req, res) => {
   const result = updateSchema.safeParse(req.body);
 
   if (!result.success) {
@@ -142,10 +148,10 @@ router.put("/", authMiddleware, async (req, res) => {
   });
 });
 
-router.get("/bulk", async (req, res) => {
-  const filter = req.query.filter || "";
+router.get("/bulk", authMiddleware, async (req, res) => {
+  const filter = req.query.filter.toLowerCase() || "";
 
-  const users = User.find({
+  let users = await User.find({
     $or: [
       {
         firstname: {
@@ -160,11 +166,15 @@ router.get("/bulk", async (req, res) => {
     ],
   });
 
+  users = users.filter((user) => {
+    return req.userId != user._id;
+  });
+
   res.json({
     user: users.map((user) => ({
       username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      firstname: user.firstname,
+      lastname: user.lastname,
       _id: user._id,
     })),
   });
