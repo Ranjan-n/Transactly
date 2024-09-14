@@ -44,7 +44,7 @@ export function Users() {
 function User({ user }) {
   const navigate = useNavigate();
   return (
-    <div className="flex justify-between mx-5 ">
+    <div className="flex flex-col sm:flex-row justify-between mx-5 my-8 bg-gray-100 sm:bg-transparent ">
       <div className="flex">
         <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
           <div className="flex flex-col justify-center h-full text-xl">
@@ -59,7 +59,7 @@ function User({ user }) {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center h-ful">
+      <div className="flex flex-col justify-center h-full">
         <ButtonComponent
           label={"Send Money"}
           onclick={() => {

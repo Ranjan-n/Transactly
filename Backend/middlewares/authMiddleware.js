@@ -6,6 +6,7 @@ const authMiddleware = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(403).json({
       message: "Invalid Authorization",
+      authenticated: false,
     });
   }
 
@@ -20,11 +21,13 @@ const authMiddleware = (req, res, next) => {
     } else {
       return res.status(403).json({
         message: "failed to decode",
+        authenticated: false,
       });
     }
   } catch (err) {
     return res.status(403).json({
       error: err,
+      authenticated: false,
     });
   }
 };

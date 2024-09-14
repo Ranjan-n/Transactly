@@ -25,9 +25,12 @@ const updateSchema = z.object({
   lastname: z.string().optional(),
 });
 
-router.get("/", authMiddleware, (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
+  const user = await User.findOne({ _id: req.userId });
   res.status(200).json({
     message: "User Authorized",
+    authenticated: true,
+    name: user.firstname,
   });
 });
 

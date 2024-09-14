@@ -1,4 +1,11 @@
-export function InputBox({ id, type, placeholder, label, onChange }) {
+export function InputBox({
+  id,
+  type,
+  placeholder,
+  label,
+  onChange,
+  onKeyDown,
+}) {
   return (
     <div className="pb-1">
       <label
@@ -13,6 +20,7 @@ export function InputBox({ id, type, placeholder, label, onChange }) {
         id={id}
         type={type}
         placeholder={placeholder}
+        onKeyDown={onKeyDown}
         required
       />
     </div>
