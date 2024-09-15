@@ -10,7 +10,8 @@ export function Dashboard() {
   const [balance, setBalance] = useState(0);
   const [isAuthorized, setAuthorization] = useState(false);
   const [user, setUser] = useState("U");
-  const [loading, setLoading] = useState(true);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [loadingBalance, setLoadingBalance] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,10 +22,12 @@ export function Dashboard() {
       return;
     }
 
+    setLoadingUser(true);
+
     axios
       .get("http://localhost:3000/api/v1/user/", {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -39,29 +42,30 @@ export function Dashboard() {
         navigate("/signup");
       })
       .finally(() => {
-        setLoading(false);
+        setLoadingUser(false);
       });
   }, [navigate]);
 
   useEffect(() => {
     if (isAuthorized) {
-      setLoading(true);
+      setLoadingBalance(true);
+
       axios
         .get("http://localhost:3000/api/v1/account/balance", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((response) => {
           setBalance(response.data.balance);
         })
         .finally(() => {
-          setLoading(false);
+          setLoadingBalance(false);
         });
     }
   }, [isAuthorized]);
 
-  if (loading) {
+  if (loadingUser || loadingBalance) {
     return <Loader />;
   }
 
