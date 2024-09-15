@@ -3,6 +3,7 @@ import { SubHeading } from "../components/SubHeading";
 import { InputBox } from "../components/InputBox";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { ButtonWarning } from "../components/ButtonWarning";
+import { Message } from "../components/Message";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 export function Signin() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [failed, setFailed] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignin = async () => {
@@ -21,10 +24,16 @@ export function Signin() {
           password,
         }
       );
+
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Sign-in failed:", error);
+      setFailed(true);
+      setError(
+        "* " +
+          (error.response?.data?.message ||
+            "An error occurred while signing in")
+      );
     }
   };
 
@@ -56,6 +65,7 @@ export function Signin() {
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={handleKeyDown}
           />
+          {failed && <Message label={error}></Message>}
           <ButtonComponent label={"SignIn"} onclick={handleSignin} />
           <ButtonWarning
             label={"Don't have an account?"}

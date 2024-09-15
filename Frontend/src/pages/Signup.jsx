@@ -16,14 +16,22 @@ export function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showMismatchWarning, setShowMismatchWarning] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
-    if (password != confirmPassword) {
-      setShowMismatchWarning(true);
-    } else if (password.length < 6) {
-      setShowWarning(true);
-    } else {
+    try {
+      if (password !== confirmPassword) {
+        setShowMismatchWarning(true);
+        return;
+      }
+
+      if (password.length < 6) {
+        setShowWarning(true);
+        return;
+      }
+
       const response = await axios.post(
         "http://localhost:3000/api/v1/user/signup",
         {
@@ -33,10 +41,23 @@ export function Signup() {
           password,
         }
       );
-      localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+
+      if (response.status !== 201) {
+        setFailed(true);
+        setError("* " + response.data?.message || "An error occurred");
+      } else {
+        localStorage.setItem("token", response.data.token);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setFailed(true);
+      setError(
+        "* " + error.response?.data?.message ||
+          "* An error occurred while signUp"
+      );
     }
   };
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSignUp();
@@ -114,6 +135,7 @@ export function Signup() {
               label={"* Passwords do not match. Please try again"}
             ></Message>
           )}
+          {failed && <Message label={error}></Message>}
 
           <ButtonComponent
             label={"SignUp"}
