@@ -26,19 +26,24 @@ const updateSchema = z.object({
 });
 
 router.get("/", authMiddleware, async (req, res) => {
-  const user = await User.findOne({ _id: req.userId });
-  res.status(200).json({
-    message: "User Authorized",
-    authenticated: true,
-    name: user.firstname,
-  });
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json({
+      message: "User Authorized",
+      authenticated: true,
+      name: user.firstname,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 router.post("/signup", async (req, res) => {
   const result = signupSchema.safeParse(req.body);
 
   if (!result.success) {
-    return res.status(411).json({
+    return res.status(400).json({
       message: "Invalid input",
       errors: result.error.format(),
     });
@@ -49,7 +54,7 @@ router.post("/signup", async (req, res) => {
   try {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(411).json({
+      return res.status(409).json({
         message: "Email already taken",
       });
     }
@@ -70,22 +75,14 @@ router.post("/signup", async (req, res) => {
       balance: 1 + Math.floor(Math.random() * 100000),
     });
 
-    const token = jwt.sign(
-      {
-        userId,
-      },
-      JWT_SECRET
-    );
+    const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
 
-    return res.status(201).json({
+    res.status(201).json({
       message: "User created successfully",
       token,
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: "Internal server error",
-    });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -117,21 +114,11 @@ router.post("/signin", async (req, res) => {
     }
 
     const userId = user._id;
-    const token = jwt.sign(
-      {
-        userId,
-      },
-      JWT_SECRET
-    );
+    const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
 
-    return res.status(200).json({
-      token,
-    });
+    res.status(200).json({ token });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: "Internal server error",
-    });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -139,48 +126,51 @@ router.put("/update", authMiddleware, async (req, res) => {
   const result = updateSchema.safeParse(req.body);
 
   if (!result.success) {
-    return res.status(411).json({
+    return res.status(400).json({
       message: "Error while updating information",
+      errors: result.error.format(),
     });
   }
 
-  await User.updateOne({ _id: req.userId }, req.body);
+  try {
+    const updateData = req.body;
+    if (updateData.password) {
+      updateData.password = bcrypt.hashSync(updateData.password, saltRounds);
+    }
 
-  return res.status(200).json({
-    message: "Updated successfully",
-  });
+    await User.updateOne({ _id: req.userId }, updateData);
+    res.status(200).json({ message: "Updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 router.get("/bulk", authMiddleware, async (req, res) => {
-  const filter = req.query.filter.toLowerCase() || "";
+  const filter = (req.query.filter || "").toLowerCase();
 
-  let users = await User.find({
-    $or: [
-      {
-        firstname: {
-          $regex: filter,
-        },
-      },
-      {
-        lastname: {
-          $regex: filter,
-        },
-      },
-    ],
-  });
+  try {
+    let users = await User.find({
+      $or: [
+        { firstname: { $regex: filter, $options: "i" } },
+        { lastname: { $regex: filter, $options: "i" } },
+      ],
+    });
 
-  users = users.filter((user) => {
-    return req.userId != user._id;
-  });
+    users = users.filter(
+      (user) => user._id.toString() !== req.userId.toString()
+    );
 
-  res.json({
-    user: users.map((user) => ({
-      username: user.username,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      _id: user._id,
-    })),
-  });
+    res.json({
+      user: users.map((user) => ({
+        username: user.username,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        _id: user._id,
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 module.exports = router;
