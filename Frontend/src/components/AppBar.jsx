@@ -19,20 +19,26 @@ export function AppBar({ letter }) {
         </div>
         <div className="flex items-center justify-items-end">
           <div className="sm:mr-4 mr-2 text-white">Hello</div>
-          <div className="rounded-full h-8 w-8 sm:h-12 sm:w-12 bg-slate-200 flex items-center justify-center mr-10">
-            <button
-              className="text-xl"
-              onClick={() => setShowLogout(!showLogout)}
-            >
-              {letter}
-            </button>
+          <div
+            className="rounded-full h-8 w-8 sm:h-12 sm:w-12 bg-slate-200 flex items-center justify-center mr-10 pointer cursor-pointer"
+            onClick={() => setShowLogout(!showLogout)}
+          >
+            <div className="text-xl">{letter}</div>
           </div>
         </div>
       </div>
       {showLogout && (
         <div className="flex justify-end">
           <button
-            className=" mr-5 text-blue-500 font-semibold py-2 px-4 bg-slate-100 hover:underline rounded"
+            className="mr-5 text-blue-500 font-semibold py-2 px-4 bg-slate-100 hover:underline rounded"
+            onClick={() => {
+              navigate("/update");
+            }}
+          >
+            Update Information
+          </button>
+          <button
+            className="mr-5 text-blue-500 font-semibold py-2 px-4 bg-slate-100 hover:underline rounded"
             onClick={() => {
               localStorage.removeItem("token");
               navigate("/signin");
