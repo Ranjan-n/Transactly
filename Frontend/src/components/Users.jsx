@@ -43,18 +43,18 @@ export function Users() {
 
 function User({ user }) {
   const navigate = useNavigate();
+
   return (
-    <div className="flex flex-col sm:flex-row justify-between mx-5 my-8 bg-gray-100 sm:bg-transparent ">
+    <div className="flex flex-col sm:flex-row justify-between mx-5 my-8 bg-gray-100 sm:bg-transparent">
       <div className="flex">
         <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
           <div className="flex flex-col justify-center h-full text-xl">
             {user.firstname[0].toUpperCase()}
           </div>
         </div>
-        <div className="flex flex-col justify-center h-ful">
+        <div className="flex flex-col justify-center h-full">
           <div>
-            {user.firstname[0].toUpperCase() + user.firstname.substring(1)}{" "}
-            {user.lastname[0].toUpperCase() + user.lastname.substring(1)}
+            {capitalize(user.firstname)} {capitalize(user.lastname)}
           </div>
         </div>
       </div>
@@ -70,3 +70,10 @@ function User({ user }) {
     </div>
   );
 }
+
+const capitalize = (str) => {
+  return str
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.substring(1))
+    .join(" ");
+};
