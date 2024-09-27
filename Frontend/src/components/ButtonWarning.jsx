@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 export function ButtonWarning({ label, buttonText, to }) {
   return (
-    <div className="pt-6 pb-2 text-sm flex justify-center ">
-      <p className="text-blue-800">{label}</p>
+    <p className="mt-10 text-center text-sm text-gray-500">
+      {label}
       <Link
-        className="pointer hover:underline pl-1 cursor-pointer text-blue-800"
+        className="font-semibold leading-6 text-blue-600 hover:underline"
         to={to}
       >
         {buttonText}
       </Link>
-    </div>
+    </p>
   );
 }
