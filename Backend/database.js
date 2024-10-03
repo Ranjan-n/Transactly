@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { mongoUrl } = require("./config");
 
-mongoose.connect("mongodb://localhost:27017/Transactly");
+mongoose.connect(mongoUrl);
 
 const userSchema = new mongoose.Schema({
   username: {
