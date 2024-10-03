@@ -64,89 +64,93 @@ export function Signup() {
     }
   };
   return (
-    <div className="flex justify-center items-center h-screen bg-slate-100">
-      <div className="flex min-h-auto flex-col justify-center px-6 py-10 rounded-lg lg:px-8 shadow-lg sm:w-auto ">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <Heading label={"SignUp"} />
-          <SubHeading label={"Enter your information to Create Account"} />
-        </div>
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className="space-y-6">
-            <InputBox
-              id={"firstname"}
-              label={"First Name"}
-              type={"text"}
-              placeholder={"Enter First Name"}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-                setShowWarning(false);
-              }}
-              onKeyDown={handleKeyDown}
-            ></InputBox>
-            <InputBox
-              id={"lastname"}
-              label={"Last Name"}
-              type={"text"}
-              placeholder={"Enter Last Name"}
-              onChange={(e) => {
-                setLastName(e.target.value);
-                setShowWarning(false);
-              }}
-              onKeyDown={handleKeyDown}
-            ></InputBox>
-            <InputBox
-              id={"email"}
-              label={"Email"}
-              type={"email"}
-              placeholder={"Enter Email Address"}
-              onChange={(e) => {
-                setUserName(e.target.value);
-                setShowWarning(false);
-              }}
-              onKeyDown={handleKeyDown}
-            ></InputBox>
-            <InputBox
-              id={"password"}
-              label={"Create Password"}
-              type={"password"}
-              placeholder={"Enter your password"}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setShowMismatchWarning(false);
-                setShowWarning(false);
-              }}
-              onKeyDown={handleKeyDown}
-            ></InputBox>
-            <InputBox
-              id={"confirmpassword"}
-              label={"Confirm Password"}
-              type={"password"}
-              placeholder={"Enter password again"}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                setShowMismatchWarning(false);
-                setShowWarning(false);
-              }}
-              onKeyDown={handleKeyDown}
-            ></InputBox>
-            {showWarning && (
-              <Message
-                label={"* Create a strong password with minimum six characters"}
-              ></Message>
-            )}
-            {showMismatchWarning && (
-              <Message
-                label={"* Passwords do not match. Please try again"}
-              ></Message>
-            )}
-            {failed && <Message label={error}></Message>}
+    <div className="bg-slate-200 w-screen h-screen">
+      <div className="flex justify-center items-center h-screen bg-transparent">
+        <div className="flex min-h-auto flex-col justify-center px-6 py-10 rounded-lg lg:px-8 bg-slate-50 shadow-lg sm:w-auto ">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <Heading label={"SignUp"} />
+            <SubHeading label={"Enter your information to Create Account"} />
+          </div>
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="space-y-6">
+              <InputBox
+                id={"firstname"}
+                label={"First Name"}
+                type={"text"}
+                placeholder={"Enter First Name"}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                  setShowWarning(false);
+                }}
+                onKeyDown={handleKeyDown}
+              ></InputBox>
+              <InputBox
+                id={"lastname"}
+                label={"Last Name"}
+                type={"text"}
+                placeholder={"Enter Last Name"}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  setShowWarning(false);
+                }}
+                onKeyDown={handleKeyDown}
+              ></InputBox>
+              <InputBox
+                id={"email"}
+                label={"Email"}
+                type={"email"}
+                placeholder={"Enter Email Address"}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                  setShowWarning(false);
+                }}
+                onKeyDown={handleKeyDown}
+              ></InputBox>
+              <InputBox
+                id={"password"}
+                label={"Create Password"}
+                type={"password"}
+                placeholder={"Enter your password"}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setShowMismatchWarning(false);
+                  setShowWarning(false);
+                }}
+                onKeyDown={handleKeyDown}
+              ></InputBox>
+              <InputBox
+                id={"confirmpassword"}
+                label={"Confirm Password"}
+                type={"password"}
+                placeholder={"Enter password again"}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setShowMismatchWarning(false);
+                  setShowWarning(false);
+                }}
+                onKeyDown={handleKeyDown}
+              ></InputBox>
+              {showWarning && (
+                <Message
+                  label={
+                    "* Create a strong password with minimum six characters"
+                  }
+                ></Message>
+              )}
+              {showMismatchWarning && (
+                <Message
+                  label={"* Passwords do not match. Please try again"}
+                ></Message>
+              )}
+              {failed && <Message label={error}></Message>}
 
-            <SubmitButton label={"SignUp"} onclick={handleSignUp} />
-            <ButtonWarning
-              label={"Already have an account? "}
-              buttonText={"Sign in"}
-              to={"/signin"}
-            />
+              <SubmitButton label={"SignUp"} onclick={handleSignUp} />
+              <ButtonWarning
+                label={"Already have an account? "}
+                buttonText={"Sign in"}
+                to={"/signin"}
+              />
+            </div>
           </div>
         </div>
       </div>

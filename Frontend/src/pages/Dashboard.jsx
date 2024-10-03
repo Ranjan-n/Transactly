@@ -70,10 +70,12 @@ export function Dashboard() {
   }
 
   return (
-    <>
-      <AppBar letter={user[0].toUpperCase()} />
-      <BalanceCard value={balance} />
-      <Users />
-    </>
+    <div className="lg:flex lg:justify-center">
+      <div className=" lg:w-3/4">
+        <AppBar letter={user[0].toUpperCase()} />
+        <BalanceCard value={balance} />
+        <Users />
+      </div>
+    </div>
   );
 }

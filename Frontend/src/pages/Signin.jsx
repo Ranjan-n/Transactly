@@ -44,35 +44,39 @@ export function Signin() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-slate-100">
-      <div className="flex min-h-auto flex-col justify-center px-6 py-12 rounded-lg lg:px-8 shadow-lg ">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <Heading label={"SignIn"} />
-          <SubHeading label={"Enter your credentials to access your account"} />
-        </div>
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className="space-y-6">
-            <InputBox
-              id={"signinEmail"}
-              label={"Email"}
-              type={"email"}
-              onChange={(e) => setUserName(e.target.value)}
-              onKeyDown={handleKeyDown}
+    <div className="h-screen w-screen bg-slate-200">
+      <div className="flex justify-center items-center h-screen bg-transparent">
+        <div className="flex min-h-auto flex-col justify-center px-6 py-12 rounded-lg bg-slate-50 lg:px-8 shadow-lg ">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <Heading label={"SignIn"} />
+            <SubHeading
+              label={"Enter your credentials to access your account"}
             />
-            <InputBox
-              id={"signinPassword"}
-              label={"Password"}
-              type={"password"}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            {failed && <Message label={error}></Message>}
-            <SubmitButton label={"SignIn"} onclick={handleSignin} />
-            <ButtonWarning
-              label={"Don't have an account? "}
-              buttonText={"Sign Up"}
-              to={"/signup"}
-            />
+          </div>
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="space-y-6">
+              <InputBox
+                id={"signinEmail"}
+                label={"Email"}
+                type={"email"}
+                onChange={(e) => setUserName(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <InputBox
+                id={"signinPassword"}
+                label={"Password"}
+                type={"password"}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              {failed && <Message label={error}></Message>}
+              <SubmitButton label={"SignIn"} onclick={handleSignin} />
+              <ButtonWarning
+                label={"Don't have an account? "}
+                buttonText={"Sign Up"}
+                to={"/signup"}
+              />
+            </div>
           </div>
         </div>
       </div>
