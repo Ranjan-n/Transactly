@@ -1,5 +1,7 @@
 # Transactly
 
+This site is live on :- https://transactly-ranjan.netlify.app/
+
 ## Project Overview
 
 Transactly is a payment application designed to streamline financial transactions with a focus on user experience and security. Built using the MERN stack, it allows users to make and manage payments similar to a payment wallet in the Paytm application. The app features a user-friendly interface that ensures seamless navigation and efficient transaction handling. Users can authenticate securely, process payments quickly, and manage their transaction history effortlessly.
