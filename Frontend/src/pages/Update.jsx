@@ -7,6 +7,7 @@ import { Message } from "../components/Message";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../config";
 
 export function Update() {
   const [firstname, setFirstName] = useState("");
@@ -47,7 +48,7 @@ export function Update() {
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/v1/user/update",
+        `${BACKEND_URL}/api/v1/user/update`,
         payload,
         {
           headers: {

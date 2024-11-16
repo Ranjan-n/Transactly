@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ButtonComponent } from "../components/ButtonComponent";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../config";
 
 export function Users() {
   const [users, setUsers] = useState([]);
@@ -9,7 +10,7 @@ export function Users() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/user/bulk?filter=" + filter, {
+      .get(`${BACKEND_URL}/api/v1/user/bulk?filter=${filter}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -45,8 +46,8 @@ function User({ user }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between mx-5 my-8 bg-gray-100 sm:bg-transparent">
-      <div className="flex">
+    <div className="flex flex-col sm:flex-row justify-between mx-5 my-8 bg-gray-100 rounded-xl p-2 sm:bg-transparent">
+      <div className="flex items-center">
         <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
           <div className="flex flex-col justify-center h-full text-xl">
             {user.firstname[0].toUpperCase()}

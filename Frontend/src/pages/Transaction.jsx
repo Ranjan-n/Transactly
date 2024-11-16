@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Message } from "../components/Message";
 import { Loader } from "../components/Loader";
 import { TransactionSuccess } from "../components/TransactionSuccess";
+import { BACKEND_URL } from "../../config";
 
 export function Transaction() {
   const [amount, setAmount] = useState("");
@@ -26,7 +27,7 @@ export function Transaction() {
     }
 
     axios
-      .get("http://localhost:3000/api/v1/user/", {
+      .get(`${BACKEND_URL}/api/v1/user/`, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -66,7 +67,7 @@ export function Transaction() {
       setLoading(true);
       axios
         .post(
-          "http://localhost:3000/api/v1/account/transfer",
+          `${BACKEND_URL}/api/v1/account/transfer`,
           {
             to: id,
             amount,

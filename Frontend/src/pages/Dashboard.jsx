@@ -5,6 +5,7 @@ import { Users } from "../components/Users";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
+import { BACKEND_URL } from "../../config";
 
 export function Dashboard() {
   const [balance, setBalance] = useState(0);
@@ -25,7 +26,7 @@ export function Dashboard() {
     setLoadingUser(true);
 
     axios
-      .get("http://localhost:3000/api/v1/user/", {
+      .get(`${BACKEND_URL}/api/v1/user/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,7 +52,7 @@ export function Dashboard() {
       setLoadingBalance(true);
 
       axios
-        .get("http://localhost:3000/api/v1/account/balance", {
+        .get(`${BACKEND_URL}/api/v1/account/balance`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

@@ -4,9 +4,11 @@ import { InputBox } from "../components/InputBox";
 import { SubmitButton } from "../components/SubmitButton";
 import { ButtonWarning } from "../components/ButtonWarning";
 import { Message } from "../components/Message";
+import { Loader } from "../components/Loader";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../config";
 
 export function Signin() {
   const [username, setUserName] = useState("");
@@ -14,20 +16,21 @@ export function Signin() {
   const [failed, setFailed] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSignin = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signin",
-        {
-          username,
-          password,
-        }
-      );
+      setLoading(true);
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+        username,
+        password,
+      });
 
       localStorage.setItem("token", response.data.token);
+      setLoading(false);
       navigate("/dashboard");
     } catch (error) {
+      setLoading(false);
       setFailed(true);
       setError(
         "* " +
@@ -42,6 +45,10 @@ export function Signin() {
       handleSignin();
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="h-screen w-screen bg-slate-200">

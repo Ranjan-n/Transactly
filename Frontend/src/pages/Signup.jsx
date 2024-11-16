@@ -4,9 +4,11 @@ import { InputBox } from "../components/InputBox";
 import { Message } from "../components/Message";
 import { SubmitButton } from "../components/SubmitButton";
 import { ButtonWarning } from "../components/ButtonWarning";
+import { Loader } from "../components/Loader";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../config";
 
 export function Signup() {
   const [firstname, setFirstName] = useState("");
@@ -17,6 +19,7 @@ export function Signup() {
   const [showMismatchWarning, setShowMismatchWarning] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -32,15 +35,14 @@ export function Signup() {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signup",
-        {
-          username,
-          firstname,
-          lastname,
-          password,
-        }
-      );
+      setLoading(true);
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, {
+        username,
+        firstname,
+        lastname,
+        password,
+      });
+      setLoading(false);
 
       if (response.status !== 201) {
         setFailed(true);
@@ -50,6 +52,7 @@ export function Signup() {
         navigate("/dashboard");
       }
     } catch (error) {
+      setLoading(false);
       setFailed(true);
       setError(
         "* " + error.response?.data?.message ||
@@ -63,6 +66,11 @@ export function Signup() {
       handleSignUp();
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="bg-slate-200 w-screen h-screen">
       <div className="flex justify-center items-center h-screen bg-transparent">
