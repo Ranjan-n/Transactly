@@ -26,7 +26,7 @@ Transactly is a payment application designed to streamline financial transaction
 #### Clone the Repository
 
 ```bash
-git clone https://github.com/yourUserName/Transactly.git
+git clone https://github.com/Ranjan-n/Transactly.git
 ```
 
 #### Backend Setup
