@@ -44,6 +44,21 @@ npm install
 node index.js
 ```
 
+##### Backend .env Configuration:
+
+```bash
+JWT_SECRET=YourJWTSecret           # Secret key for signing JWT tokens
+MONGO_URL=mongodb://localhost:27017/PaymentAPP # MongoDB connection string
+SALT_ROUNDS=10                     # Number of salt rounds for password hashing
+```
+
+### OR
+
+```bash
+docker pull ranjann2004/transactly-backend
+docker run -e JWT_SECRET=YourJWTSecret -e MONGO_URL=mongodb://localhost:27017/PaymentAPP -e SALT_ROUNDS=Number_of_salt_rounds_for_password_hashing -p 3000:3000 ranjann2004/transactly-backend
+```
+
 #### Frontend Setup
 
 Navigate to the frontend directory and install dependencies:
@@ -57,6 +72,12 @@ npm install
 
 ```bash
 npm run dev
+```
+
+##### Frontend .env Configuration
+
+```bash
+VITE_BACKEND_URL=http://localhost:3000
 ```
 
 ### Future Enhancements
