@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mongodb:
+    image: "mongo"
+    container_name: 'mongodb'
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    image: "ranjann2004/transactly-backend"
+    container_name: transactly-backend
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:3000
+    environment:
+      JWT_SECRET: JWT_SECRET
+      MONGO_URL: mongodb://mongodb:27017/PaymentAPP
+      SALT_ROUNDS: 10
+
+  frontend:
+    build:
+      context: ./Frontend
+    container_name: transactly-frontend
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
+    environment:
+      VITE_BACKEND_URL: http://localhost:3000
+
+volumes:
+  mongodb_data: 
